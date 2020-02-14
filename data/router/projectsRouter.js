@@ -10,30 +10,32 @@ const router = express.Router();
 //get list of all projects
 router.get('/', (req, res) => {
     Projects.get()
-        .then({
-
+        .then(projects => {
+            res.status(200).json(projects)
         })
         .catch(err => {
             res.status(500).json({message: "There was an error handling this request"})
         })  
 })
+//verfieid in postman
 
 //display project by id
 router.get('/:projectid', validateProjectId, (req, res) => {
     Projects.get(req.params.projectid)
-        .then({
-            
-        })
+        .then(projects => {
+            res.status(200).json(projects)
+        }) 
         .catch(err => {
             res.status(500).json({message: "There was an error handling this request"})
         })  
 })
+//verfieid in postman
 
 //add new project
 router.post('/', validateProject, (req, res) => {
     Projects.insert(req.body)
         .then(project => {
-            res.status(200).json(req.body)
+            res.status(201).json(req.body)
         })
         .catch(err => {
             res.status(500).json({message: "There was an error handling this request"})
@@ -42,7 +44,7 @@ router.post('/', validateProject, (req, res) => {
 
 //update project
 router.put('/:projectid', validateProjectId, validateProject, (req, res) => {
-    Projects.update()
+    Projects.update(req.params.project.id)
         .then({
             
         })
@@ -53,29 +55,34 @@ router.put('/:projectid', validateProjectId, validateProject, (req, res) => {
 
 //delete project
 router.delete('/:projectid', validateProjectId, (req, res) => {
-    Projects.remove()
-        .then({
-            
+    Projects.remove(req.params.projectid)
+        .then(removedProject => {
+            res.status(200).json(removedProject)
         })
         .catch(err => {
             res.status(500).json({message: "There was an error handling this request"})
         })  
 })
-
+//verified in postman
 
 //actions
 //get actions for a specific project id
 router.get('/:projectid/actions', validateProjectId, (req, res) => {
-    Projects.getProjectActions()
+    Projects.getProjectActions(req.params.projectid)
+    .then(projectActions => {
+        res.status(200).json(projectActions)
+    })
     .catch(err => {
         res.status(500).json({message: "There was an error handling this request"})
     })  
 })
+//verfied with postman
 
-router.get("/actions", (req, res)=> {
-    Actions.get(req.body)
+//get action 
+router.post(':projectid/actions/:actionid', validateProjectId, validateActionId, (req, res) => {
+    Actions.get(req.params.actionid)
         .then(action => {
-
+            res.status(200).json(action)
         })
         .catch(err => {
             res.status(500).json({message: "There was an error handling this request"})
@@ -93,7 +100,6 @@ router.post(':projectid/actions', validateProjectId, validateAction,(req, res) =
         })  
 })
 
-
 //update action
 router.put(':projectid/actions/:actionid', validateProjectId, validateActionId, validateAction, (req, res) => { 
     Actions.update(req.body)
@@ -105,12 +111,11 @@ router.put(':projectid/actions/:actionid', validateProjectId, validateActionId, 
     })  
 })
 
-
 //delete action
 router.delete(':projectid/actions/:actionid', validateProjectId, validateActionId, (req, res) => { 
-    Actions.remove()
-    .then(action => {
-
+    Actions.remove(req.params.actionid)
+    .then(removedAction => {
+        res.status(200).json(removedAction)
     })
     .catch(err => {
         res.status(500).json({message: "There was an error handling this request"})
