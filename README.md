@@ -40,13 +40,23 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 
 - [ ] Mention two parts of Express that you learned about this week.
 
+    Middleware and Routing
+
 - [ ] Describe Middleware?
+
+    Middleware functions are functions that have access to the request object (req), the response object (res), and the next function in the application’s request-response cycle. Middleware helps Express handle functions outside of the scope of what it comes with out of the box. There are three types: custom, third-party, and built-in. Examples of third-party include the downloadable modules of Helmet, Cors, and Morgan. Custom middleware are functions we write to perform certain tasks. Custom middleware is further broken down into error handling and regular.
 
 - [ ] Describe a Resource?
 
+    Everything is a resource: typically a resource refers to the data that we're pulling from the database and manipulating within our endpoints.
+
 - [ ] What can the API return to help clients know if a request was successful?
 
+    200 OK status code
+
 - [ ] How can we partition our application into sub-applications?
+
+
 
 ## Minimum Viable Product
 
