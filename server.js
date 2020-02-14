@@ -2,8 +2,7 @@
 const express = require('express');
 
 //import data from actions/projects
-const actionsRouter = require('./data/actions/actionsRouter');
-const projectsRouter = require('./data/projects/projectsRouter');
+const projectsRouter = require('./data/router/projectsRouter');
 
 //import logger middleware from utils
 const { logger } = require('./utils/logger.js');
@@ -18,7 +17,6 @@ server.use(express.json())
 server.use(logger);
 
 //tell server to use routes/endpoints
-server.use("/api/projects/actions", actionsRouter)
 server.use("/api/projects", projectsRouter)
 
 //code from project clone
