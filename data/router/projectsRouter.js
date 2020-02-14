@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
             res.status(500).json({message: "There was an error handling this request"})
         })  
 })
-//verfieid in postman
+//verified in postman
 
 //display project by id
 router.get('/:projectid', validateProjectId, (req, res) => {
@@ -29,7 +29,7 @@ router.get('/:projectid', validateProjectId, (req, res) => {
             res.status(500).json({message: "There was an error handling this request"})
         })  
 })
-//verfieid in postman
+//verified in postman
 
 //add new project
 router.post('/', validateProject, (req, res) => {
@@ -41,17 +41,19 @@ router.post('/', validateProject, (req, res) => {
             res.status(500).json({message: "There was an error handling this request"})
         })  
 });
+//verified in postman
 
 //update project
 router.put('/:projectid', validateProjectId, validateProject, (req, res) => {
-    Projects.update(req.params.project.id)
-        .then({
-            
+    Projects.update(req.params.projectid)
+        .then(project => {
+            res.status(201).json(req.body)
         })
         .catch(err => {
             res.status(500).json({message: "There was an error handling this request"})
         })  
 })
+
 
 //delete project
 router.delete('/:projectid', validateProjectId, (req, res) => {
@@ -76,7 +78,7 @@ router.get('/:projectid/actions', validateProjectId, (req, res) => {
         res.status(500).json({message: "There was an error handling this request"})
     })  
 })
-//verfied with postman
+//verified with postman
 
 //get action 
 router.post(':projectid/actions/:actionid', validateProjectId, validateActionId, (req, res) => {
@@ -101,7 +103,7 @@ router.post(':projectid/actions', validateProjectId, validateAction,(req, res) =
 })
 
 //update action
-router.put(':projectid/actions/:actionid', validateProjectId, validateActionId, validateAction, (req, res) => { 
+router.put(':projectid/actions/:actionid', validateActionId, validateAction, (req, res) => { 
     Actions.update(req.body)
     .then(action => {
 
@@ -112,7 +114,7 @@ router.put(':projectid/actions/:actionid', validateProjectId, validateActionId, 
 })
 
 //delete action
-router.delete(':projectid/actions/:actionid', validateProjectId, validateActionId, (req, res) => { 
+router.delete(':projectid/actions/:actionid', validateActionId, (req, res) => { 
     Actions.remove(req.params.actionid)
     .then(removedAction => {
         res.status(200).json(removedAction)
