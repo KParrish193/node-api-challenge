@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
             res.status(200).json(projects)
         })
         .catch(err => {
-            res.status(500).json({message: "There was an error handling this request"})
+            res.status(500).json({errorMessage: "There was an error handling this request"})
         })  
 })
 //verified in postman
@@ -26,7 +26,7 @@ router.get('/:projectid', validateProjectId, (req, res) => {
             res.status(200).json(projects)
         }) 
         .catch(err => {
-            res.status(500).json({message: "There was an error handling this request"})
+            res.status(500).json({errorMessage: "There was an error handling this request"})
         })  
 })
 //verified in postman
@@ -38,21 +38,27 @@ router.post('/', validateProject, (req, res) => {
             res.status(201).json(req.body)
         })
         .catch(err => {
-            res.status(500).json({message: "There was an error handling this request"})
+            res.status(500).json({errorMessage: "There was an error handling this request"})
         })  
 });
 //verified in postman
 
 //update project
-router.put('/:projectid', validateProjectId, validateProject, (req, res) => {
-    Projects.update(req.params.projectid)
-        .then(project => {
-            res.status(201).json(req.body)
+router.put('/:projectid', validateProjectId, (req, res) => {
+
+    Projects.update(req.params.projectid, req.body)
+        .then(updates => {
+            res.status(200).json({
+            message: `Updated project information`,
+            updatedProject: {...req.body, id: parseInt(req.params.projectid)}   
+            })
         })
         .catch(err => {
-            res.status(500).json({message: "There was an error handling this request"})
+            console.log(err);
+            res.status(500).json({errorMessage: "There was an error handling this request"})
         })  
 })
+//verified with postman
 
 
 //delete project
@@ -62,7 +68,7 @@ router.delete('/:projectid', validateProjectId, (req, res) => {
             res.status(200).json(removedProject)
         })
         .catch(err => {
-            res.status(500).json({message: "There was an error handling this request"})
+            res.status(500).json({errorMessage: "There was an error handling this request"})
         })  
 })
 //verified in postman
@@ -75,7 +81,7 @@ router.get('/:projectid/actions', validateProjectId, (req, res) => {
         res.status(200).json(projectActions)
     })
     .catch(err => {
-        res.status(500).json({message: "There was an error handling this request"})
+        res.status(500).json({errorMessage: "There was an error handling this request"})
     })  
 })
 //verified with postman
@@ -87,7 +93,7 @@ router.post(':projectid/actions/:actionid', validateProjectId, validateActionId,
             res.status(200).json(action)
         })
         .catch(err => {
-            res.status(500).json({message: "There was an error handling this request"})
+            res.status(500).json({errorMessage: "There was an error handling this request"})
         })  
 })
 
@@ -98,7 +104,7 @@ router.post(':projectid/actions', validateProjectId, validateAction,(req, res) =
 
         })
         .catch(err => {
-            res.status(500).json({message: "There was an error handling this request"})
+            res.status(500).json({errorMessage: "There was an error handling this request"})
         })  
 })
 
@@ -109,7 +115,7 @@ router.put(':projectid/actions/:actionid', validateActionId, validateAction, (re
 
     })
     .catch(err => {
-        res.status(500).json({message: "There was an error handling this request"})
+        res.status(500).json({errorMessage: "There was an error handling this request"})
     })  
 })
 
@@ -120,7 +126,7 @@ router.delete(':projectid/actions/:actionid', validateActionId, (req, res) => {
         res.status(200).json(removedAction)
     })
     .catch(err => {
-        res.status(500).json({message: "There was an error handling this request"})
+        res.status(500).json({errorMessage: "There was an error handling this request"})
     })  
 })
 
